@@ -1,0 +1,54 @@
+ALGORITHM problem2s1 //sum of all distinct elements (1ere methode)
+VAR
+    sum: INTEGER:0;
+    i, j, n,m :INTEGER;
+    tab1 : ARRAY_OF INTEGER[n];
+    tab2 : ARRAY_OF INTEGER[m];
+
+BEGIN
+    /////insertion 1er tab
+    Write ("quel est la taille du premier tableau de valeurs:");
+    Read (n);
+    FOR i FROM 0 TO n DO
+       Read(tab1[i]);// insert from user
+    END_FOR
+
+    //////insertion 2eme tab
+    Write ("quel est la taille du deuxieme tableau de valeurs:");
+    Read (m);
+    FOR i FROM 0 TO m DO
+       Read(tab2[i]);// insert from user
+    END_FOR
+
+////verfication des elements de tab1 dans le tableau de tab2
+    FOR i FROM 0 TO n-1 STEP 1  DO
+        FOR j FROM 0 TO m-1 STEP 1  DO
+            IF (tab1[i]=tab2[j]) THEN
+                BREAK   //si elt i de tab1 correspond a un elt de tab2 alors quitter le balayage de tab2
+            END_IF
+            j:=j+1;
+            IF (j=m) THEN
+                sum:=sum+tab1[i];  //si elt i de tab1 ne correspond a aucun elt de tab2 alors ajeter cet elt a sum
+            END_IF
+        END_FOR //end for j
+        i:=i+1;
+    END_FOR // end for i
+
+////verfication reciproque (elts de tab2 dans le tableau de tab1)
+    FOR i FROM 0 TO n-1 STEP 1  DO
+        FOR j FROM 0 TO m-1 STEP 1  DO
+            IF (tab2[i]=tab1[j]) THEN
+                BREAK   //si elt i de tab2 correspond a un elt de tab1 alors quitter le balayage de tab1
+            END_IF
+            j:=j+1;
+            IF (j=m) THEN
+                sum:=sum+tab2[i];  //si elt i de tab2 ne correspond a aucun elt de tab1 alors ajeter cet elt a sum
+            END_IF
+        END_FOR //end for j
+        i:=i+1;
+    END_FOR // end for i
+
+///////////Sortie
+    Write("resultat=", sum);
+
+END

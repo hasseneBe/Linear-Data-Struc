@@ -1,0 +1,53 @@
+ALGORITHM problem1s2        //sum of all distinct elements (2ere methode)
+VAR
+    tab1 : ARRAY_OF INTEGER[n];
+    tab2: ARRAY_OF INTEGER[m];
+    h_tab:HASH_TABLE<INTEGER,INTEGER>;
+    i, n, m: INTEGER;
+    sum : INTEGER:0;
+    const: ARRAY_OF INTEGER[n+m]
+BEGIN
+    /////insertion 1er tab
+    Write ("quel est la taille du premier tableau de valeurs:");
+    Read (n);
+    FOR i FROM 0 TO n DO
+       Read(tab1[i]);// insert from user
+    END_FOR
+
+    //////insertion 2eme tab
+    Write ("quel est la taille du deuxieme tableau de valeurs:");
+    Read (m);
+    FOR i FROM 0 TO m DO
+       Read(tab2[i]);// insert from user
+    END_FOR
+
+
+// balayer le 1er tab pour inserer ses elts et leurs occurences ds le h_tab
+FOR i FROM 0 TO n STEP 1  DO           
+    IF (h_tab.lookup(tab1[i])=TRUE) THEN    //si l'elt existe deja ds le htab, ajouter +1 à l'occurence
+        count:=h_tab.get(tab1[i]);
+        h_tab.insert(tab1[i],count+1)
+    ELSE                               
+        h_tab.insert(tab1[i],1)     // sinon, inserer l'elm ds le htab avec une occurence =1
+        const.push(tab1[i])         // aussi l'inserer dans une table auxiliaire
+    END_IF  //end if tab1
+
+// Refaire le meme travail avec tab2
+FOR i FROM 0 TO m STEP 1  DO           
+    IF (h_tab.lookup(tab2[i])=TRUE) THEN    //si l'elt existe deja ds le htab, ajouter +1 à l'occurence
+        count:=h_tab.get(tab2[i]);
+        h_tab.insert(tab2[i],count+1)
+    ELSE                               
+        h_tab.insert(tab2[i],1)     //// sinon, inserer l'elm ds le htab avec une occurence =1
+        const.push(tab2[i])         // aussi l'inserer dans une table auxiliaire
+    END_IF  //end if tab2
+END_FOR  //end for i
+
+FOR i FROM 0 TO const.length-1 STEP 1  DO   // Balayage, tri et assignation des resultats
+    IF (h_tab.get(const[i])<>1) THEN
+        sum=sum+const[i]*h_tab.get(const[i]);
+    END_IF
+END_FOR
+///////////Sortie
+    Write("resultat=", sum);
+END
